@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🚬 Cigarros Loja</title>
+    <style>
+        * {margin:0;padding:0;box-sizing:border-box;}
+        body {font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:linear-gradient(135deg,#ff6b6b,#4ecdc4);padding:10px;min-height:100vh;}
+        .container {max-width:100%;background:white;border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,0.2);overflow:hidden;}
+        .header {background:linear-gradient(45deg,#e74c3c,#c0392b);color:white;padding:30px;text-align:center;}
+        .header h1 {font-size:2.2em;margin-bottom:10px;}
+        .form-section {padding:25px;background:#f8f9fa;}
+        .form-row {display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;}
+        input,select,button {flex:1;min-width:120px;padding:15px;border:2px solid #ddd;border-radius:10px;font-size:16px;}
+        input:focus,select:focus {border-color:#e74c3c;}
+        button {background:#27ae60;color:white;border:none;font-weight:bold;font-size:14px;touch-action:manipulation;}
+        button:active {background:#219a52;transform:scale(0.98);}
+        .btn-danger {background:#e74c3c;}
+        .btn-danger:active {background:#c0392b;}
+        table {width:100%;border-collapse:collapse;margin-top:20px;}
+        th,td {padding:12px;text-align:left;border-bottom:1px solid #eee;font-size:14px;}
+        th {background:#e74c3c;color:white;font-size:13px;}
+        .status-disponivel {background:#d4edda;color:#155724;padding:5px 10px;border-radius:15px;font-size:12px;}
+        .status-baixo {background:#fff3cd;color:#856404;padding:5px 10px;border-radius:15px;font-size:12px;}
+        .status-esgotado {background:#f8d7da;color:#721c24;padding:5px 10px;border-radius:15px;font-size:12px;}
+        .comprador {font-weight:bold;color:#e74c3c;}
+        .stats {display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;}
+        .stat {flex:1;min-width:110px;background:#3498db;color:white;padding:12px;border-radius:10px;text-align:center;font-size:13px;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚬 Cigarros Loja</h1>
+            <p>Comprador + Limpar Tudo</p>
+        </div>
+        
+        <div class="form-section">
+            <div class="form-row">
+                <input id="marca" placeholder="Marca" type="text">
+                <input id="tipo" placeholder="Tipo" type="text">
+                <input id="comprador" placeholder="COMPRADOR" type="text">
+                <input id="preco" placeholder="R$" type="number" step="0.01">
+                <select id="status">
+                    <option>Disponível</option>
+                    <option>Baixo</option>
+                    <option>Esgotado</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <button onclick="addCarga()">➕ ADICIONAR</button>
+                <button onclick="clearForm()" class="btn-danger">✏️ LIMPAR FORM</button>
+                <button onclick="limparTodos()" class="btn-danger" style="background:#8b0000;">🗑️ LIMPAR VENDAS</button>
+                <button onclick="exportData()">💾 EXTRATO</button>
+            </div>
+        </div>
+
+        <div style="padding:20px;">
+            <div class="stats">
+                <div class="stat"><div id="totalP">0</div>Vendas</div>
+                <div class="stat"><div id="totalV">R$0</div>Total</div>
+            </div>
+            <table id="table">
+                <thead><tr><th>Marca</th><th>Tipo</th><th>Comprador</th><th>R$</th><th>Status</th></tr></thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let vendas = JSON.parse(localStorage.getItem('vendas_cigarros')) || [];
+        
+        function salvar() {
+            localStorage.setItem('vendas_cigarros', JSON.stringify(vendas));
+        }
+        
+        function updateTable() {
+            let tbody = document.getElementById('tbody');
+            let totalP = 0, totalV = 0;
+            tbody.innerHTML = '';
+            
+            vendas.forEach(v => {
+                totalP++; totalV += v.preco;
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${v.marca}</td>
+                    <td>${v.tipo}</td>
+                    <td><span class="comprador">${v.comprador}</span></td>
+                    <td>R$${v.preco.toFixed(2)}</td>
+                    <td><span class="status-${v.status.toLowerCase()}">${v.status}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            document.getElementById('totalP').textContent = totalP;
+            document.getElementById('totalV').textContent = 'R$' + totalV.toFixed(2);
+        }
+        
+        function addCarga() {
+            let marca = document.getElementById('marca').value.toUpperCase();
+            let tipo = document.getElementById('tipo').value;
+            let comprador = document.getElementById('comprador').value.toUpperCase();
+            let preco = parseFloat(document.getElementById('preco').value) || 0;
+            let status = document.getElementById('status').value;
+            
+            if(marca && tipo && comprador && preco > 0) {
+                vendas.push({marca, tipo, comprador, preco, status, data: new Date().toLocaleDateString('pt-BR')});
+                salvar();
+                updateTable();
+                clearForm();
+            } else {
+                alert('❌ Preencha tudo!');
+            }
+        }
+        
+        function clearForm() {
+            document.getElementById('marca').value = '';
+            document.getElementById('tipo').value = '';
+            document.getElementById('comprador').value = '';
+            document.getElementById('preco').value = '';
+            document.getElementById('status').value = 'Disponível';
+        }
+        
+        function limparTodos() {
+            if(confirm('🗑️ APAGAR TODAS VENDAS?\n\nNão recupera depois!')) {
+                vendas = [];
+                salvar();
+                updateTable();
+                alert('✅ Tabela limpa!');
+            }
+        }
+        
+        function exportData() {
+            const hoje = new Date().toLocaleDateString('pt-BR');
+            const extrato = vendas.map(v => `${v.data} | ${v.marca} ${v.tipo} | ${v.comprador} | R$${v.preco.toFixed(2)}`).join('\n');
+            const total = vendas.reduce((sum, v) => sum + v.preco, 0);
+            
+            const relatorio = `🚬 VENDAS CIGARROS - ${hoje}\n\n${extrato}\n\n💰 TOTAL: R$${total.toFixed(2)} | ${vendas.length} vendas`;
+            
+            const blob = new Blob([relatorio], {type: 'text/plain'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `extrato-${hoje.replace(/\//g,'-')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+        
+        document.addEventListener('touchstart', function(){}, true);
+        updateTable();
+    </script>
+</body>
+</html>
