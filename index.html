@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>🚬 distribuidora e tabacaria</title>
+    <title>🚬 Cigarros Loja</title>
     <style>
         * {margin:0;padding:0;box-sizing:border-box;}
         body {font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:linear-gradient(135deg,#ff6b6b,#4ecdc4);padding:10px;min-height:100vh;}
         .container {max-width:100%;background:white;border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,0.2);overflow:hidden;}
-        .header {background:linear-gradient(45deg,#e74c3c,#c0392b);color:white;padding:20px;text-align:left;}
-        .header h1 {font-size:2.2em;margin-bottom:10px;}
+        .header {background:linear-gradient(45deg,#e74c3c,#c0392b);color:white;padding:20px;text-align:left;display:flex;align-items:center;gap:15px;}
+        .header h1 {font-size:2.2em;margin:0;}
         .form-section {padding:25px;background:#f8f9fa;}
         .form-row {display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;}
         input,select,button {flex:1;min-width:120px;padding:15px;border:2px solid #ddd;border-radius:10px;font-size:16px;}
@@ -31,17 +31,17 @@
 </head>
 <body>
     <div class="header" style="display:flex;align-items:center;padding:25px;gap:15px;">
-        <img src="WhatsApp Image 2026-04-26 at 23.24.40.jpeg" style="width:70px;height:63px;border-radius:35px;box-shadow:0 4px 8px rgba(0,0,0,0.3);">
+        <img src="image-loja.jpeg" style="width:70px;height:63px;border-radius:35px;box-shadow:0 4px 8px rgba(0,0,0,0.3);">
         <div>
-           <h1 style="margin:0;font-size:2.5em;">Distribuidora & Tabacaria</h1> 
+           <h1 style="margin:0;font-size:2.5em;">Distribuidora & Tabacaria</h1>
     </div>
-</div>
+  </div>
         
         <div class="form-section">
             <div class="form-row">
-                <input id="marca" placeholder="Marca" type="text">
-                <input id="tipo" placeholder="Tipo" type="text">
-                <input id="comprador" placeholder="COMPRADOR" type="text">
+                <input id="marca" placeholder="Marca">
+                <input id="qtdpedidos" placeholder="Qtd Pedidos" type="number" min="1" value="1">
+                <input id="comprador" placeholder="COMPRADOR">
                 <input id="preco" placeholder="R$" type="number" step="0.01">
                 <select id="status">
                     <option>Disponível</option>
@@ -63,7 +63,7 @@
                 <div class="stat"><div id="totalV">R$0</div>Total</div>
             </div>
             <table id="table">
-                <thead><tr><th>Marca</th><th>Tipo</th><th>Comprador</th><th>R$</th><th>Status</th></tr></thead>
+                <thead><tr><th>Marca</th><th>Qtd</th><th>Comprador</th><th>Total R$</th><th>Status</th></tr></thead>
                 <tbody id="tbody"></tbody>
             </table>
         </div>
@@ -82,13 +82,15 @@
             tbody.innerHTML = '';
             
             vendas.forEach(v => {
-                totalP++; totalV += v.preco;
+                let valorTotal = (v.qtdpedidos * v.preco).toFixed(2);
+                totalP++; totalV += parseFloat(valorTotal);
+                
                 let tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>${v.marca}</td>
-                    <td>${v.tipo}</td>
+                    <td><strong>${v.qtdpedidos}</strong></td>
                     <td><span class="comprador">${v.comprador}</span></td>
-                    <td>R$${v.preco.toFixed(2)}</td>
+                    <td>R$ ${valorTotal}</td>
                     <td><span class="status-${v.status.toLowerCase()}">${v.status}</span></td>
                 `;
                 tbody.appendChild(tr);
@@ -99,32 +101,40 @@
         }
         
         function addCarga() {
-            let marca = document.getElementById('marca').value.toUpperCase();
-            let tipo = document.getElementById('tipo').value;
-            let comprador = document.getElementById('comprador').value.toUpperCase();
+            let marca = document.getElementById('marca').value.toUpperCase().trim();
+            let qtdpedidos = parseInt(document.getElementById('qtdpedidos').value) || 1;
+            let comprador = document.getElementById('comprador').value.toUpperCase().trim();
             let preco = parseFloat(document.getElementById('preco').value) || 0;
             let status = document.getElementById('status').value;
             
-            if(marca && tipo && comprador && preco > 0) {
-                vendas.push({marca, tipo, comprador, preco, status, data: new Date().toLocaleDateString('pt-BR')});
+            if(marca && comprador && preco > 0 && qtdpedidos > 0) {
+                vendas.push({
+                    marca, 
+                    qtdpedidos, 
+                    comprador, 
+                    preco, 
+                    status, 
+                    data: new Date().toLocaleDateString('pt-BR')
+                });
                 salvar();
                 updateTable();
                 clearForm();
+                alert(`✅ ${qtdpedidos}x ${marca} ➡️ ${comprador}`);
             } else {
-                alert('❌ Preencha tudo!');
+                alert('❌ Preencha Marca, Comprador, Preço e Qtd!');
             }
         }
         
         function clearForm() {
             document.getElementById('marca').value = '';
-            document.getElementById('tipo').value = '';
+            document.getElementById('qtdpedidos').value = '1';
             document.getElementById('comprador').value = '';
             document.getElementById('preco').value = '';
             document.getElementById('status').value = 'Disponível';
         }
         
         function limparTodos() {
-            if(confirm('🗑️ APAGAR TODAS VENDAS?\n\nNão recupera depois!')) {
+            if(confirm('🗑️ APAGAR TODAS VENDAS?\nNão recupera depois!')) {
                 vendas = [];
                 salvar();
                 updateTable();
@@ -134,11 +144,21 @@
         
         function exportData() {
             const hoje = new Date().toLocaleDateString('pt-BR');
-            const extrato = vendas.map(v => `${v.data} | ${v.marca} ${v.tipo} | ${v.comprador} | R$${v.preco.toFixed(2)}`).join('\n');
-            const total = vendas.reduce((sum, v) => sum + v.preco, 0);
+            const extrato = vendas.map(v => {
+                let total = (v.qtdpedidos * v.preco).toFixed(2);
+                return `${v.data} | ${v.marca} | ${v.qtdpedidos} pedidos | ${v.comprador} | R$${total}`;
+            }).join('\n');
             
-            const relatorio = `🚬 VENDAS CIGARROS - ${hoje}\n\n${extrato}\n\n💰 TOTAL: R$${total.toFixed(2)} | ${vendas.length} vendas`;
+            const totalDia = vendas.reduce((sum, v) => sum + (v.qtdpedidos * v.preco), 0);
             
+            const relatorio = `🚬 VENDAS CIGARROS - ${hoje}
+
+${extrato}
+
+💰 TOTAL DIA: R$${totalDia.toFixed(2)}
+📦 ${vendas.length} vendas | ${vendas.reduce((s,v)=>s+v.qtdpedidos,0)} pedidos
+${hoje}`;
+
             const blob = new Blob([relatorio], {type: 'text/plain'});
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -147,6 +167,7 @@
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
+            alert('✅ Extrato salvo!');
         }
         
         document.addEventListener('touchstart', function(){}, true);
