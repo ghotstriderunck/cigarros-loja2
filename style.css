@@ -1,1 +1,107 @@
+/* ========================================
+   CIGARROS LOJA - CSS SIMPLES
+======================================== */
 
+/* BASE */
+* { margin:0; padding:0; box-sizing:border-box; }
+body { 
+    font-family: -apple-system, sans-serif; 
+    background: linear-gradient(135deg, #7e7d7d 0%, #7e7d7d 100%);
+    padding: 10px; 
+    min-height: 100vh;
+}
+
+/* CONTAINER PRINCIPAL */
+.container { 
+    background: white; 
+    border-radius: 20px; 
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2); 
+    overflow: hidden;
+    max-width: 100%;
+}
+
+/* HEADER COM LOGO */
+.header { 
+    background: linear-gradient(45deg, #3b3b3b, #3b3b3b);
+    color: white; 
+    padding: 20px; 
+    display: flex; 
+    align-items: center; 
+    gap: 15px;
+}
+.logo { 
+    width: 70px; 
+    height: 70px; 
+    border-radius: 20px; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.header h1 { font-size: 2.3em; margin: 0; }
+.header p { margin: 5px 0 0 0; color: #ffeb3b; font-size: 1.1em; }
+
+/* FORMULÁRIO */
+.form-section { padding: 25px; background: #f8f9fa; }
+.form-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+input, select, button { 
+    flex: 1; 
+    min-width: 120px; 
+    padding: 15px; 
+    border: 2px solid #ddd; 
+    border-radius: 10px; 
+    font-size: 16px;
+}
+input:focus, select:focus { 
+    border-color: #49d4db; 
+    box-shadow: 0 0 0 3px rgba(231,76,60,0.1);
+}
+
+/* BOTÕES */
+button { 
+    background: #3b3b3b; 
+    color: white; 
+    border: none; 
+    font-weight: bold; 
+    font-size: 14px; 
+    cursor: pointer;
+    
+}
+button:active { 
+    background: #3b3b3b; 
+    transform: scale(0.98);
+}
+.btn-danger { background: #3b3b3b; }
+.btn-danger:active { background: #3b3b3b; }
+.reset-btn { background: #8b0000; }
+.reset-btn:active { background: #a00000; }
+
+/* TABELA E STATS */
+.table-section { padding: 20px; }
+.stats { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 10px; 
+    margin-bottom: 20px; 
+}
+.stat { 
+    flex: 1; 
+    min-width: 110px; 
+    background: linear-gradient(45deg, #3b3b3b, #3b3b3b);
+    color: white; 
+    padding: 15px; 
+    border-radius: 10px; 
+    text-align: center;
+}
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
+th { 
+    background: #3b3b3b; 
+    color: white; 
+    font-size: 13px; 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px;
+}
+
+/* RESPONSIVO CELULAR */
+@media (max-width: 600px) { 
+    .form-row { flex-direction: column; }
+    .header { flex-direction: column; text-align: center; gap: 10px; }
+}
