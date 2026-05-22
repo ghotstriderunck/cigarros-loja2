@@ -15,8 +15,7 @@
         
         <!-- HEADER COM LOGO E TÍTULO -->
         <div class="header">
-            <<img src="cigarros-loja2/image-loja.jpeg" alt="Logo Loja" class="logo">
-
+            <img src="image-loja.jpeg" alt="Logo Loja" class="logo">
             <div>
                 <h1> Distribuidora & Tabacaria</h1>
                 
@@ -27,9 +26,66 @@
         <div class="form-section">
             <!-- CAMPOS DE ENTRADA -->
             <div class="form-row">
-                <input id="marca" placeholder="Marca (Marlboro, Hollywood)">
+                <select id="marca" onchange="preencherPreco()">
+                  <option value="">Selecione a marca</option>
+                  <option value="Carlton Red">Carlton Red</option>
+                  <option value="Carlton Blue">Carlton Blue</option>
+                  <option value="Evoque Tabaco">Evoque Tabaco</option>
+                  <option value="Double Refresh">Double Refresh</option>
+                  <option value="Mix Refresh">Mix Refresh</option>
+                  <option value="Ice Refresh">Ice Refresh</option>
+                  <option value="Evoque Essence">Evoque Essence</option>
+                  <option value="Free Red">Free Red</option>
+                  <option value="Free Blue">Free Blue</option>
+                  <option value="Full Red">Full Red</option>
+                  <option value="Lucky Strike Ori. Red">Lucky Strike Ori. Red</option>
+                  <option value="Double Ice">Double Ice</option>
+                  <option value="Lucky Strike Ori. Blue">Lucky Strike Ori. Blue</option>
+                  <option value="R.A Patterson Red">R.A Patterson Red</option>
+                  <option value="R.A Patterson Blue">R.A Patterson Blue</option>
+                  <option value="Fresh Mint X">Fresh Mint X</option>
+                  <option value="Fresh Wild">Fresh Wild</option>
+                  <option value="Fresh Ice">Fresh Ice</option>
+                  <option value="Rothmans Ori. Blue">Rothmans Ori. Blue</option>
+                  <option value="Rothmans Ori. Red">Rothmans Ori. Red</option>
+                  <option value="Rothmans Ori. Silver">Rothmans Ori. Silver</option>
+                  <option value="Rothmans Internacional">Rothmans Internacional</option>
+                  <option value="Rothmans Global Blue">Rothmans Global Blue</option>
+                  <option value="Rothmans Global Red">Rothmans Global Red</option>
+                  <option value="Kent Blue">Kent Blue</option>
+                  <option value="Kent Red">Kent Red</option>
+                  <option value="Kent Silver">Kent Silver</option>
+                  <option value="Marlboro Red">Marlboro Red</option>
+                  <option value="Marlboro Gold">Marlboro Gold</option>
+                  <option value="Marlboro Blue">Marlboro Blue</option>
+                  <option value="Marlboro Gold selection">Marlboro Gold selection</option>
+                  <option value="Marlboro Blue selection">Marlboro Blue selection</option>
+                  <option value="Marlboro red selection">Marlboro red selection</option>
+                  <option value="Marlboro Ice">Marlboro Ice</option>
+                  <option value="Marlboro Double Mix">Marlboro Double Mix</option>
+                  <option value="Marlboro Double Fusion">Marlboro Double Fusion</option>
+                  <option value="Marlboro Vista">Marlboro Vista</option>
+                  <option value="Camel Filters">Camel Filters</option>
+                  <option value="Camel Blue">Camel Blue</option>
+                  <option value="Camel P. Blend">Camel P. Blend</option>
+                  <option value="Camel Double Mint & Red">Camel Double Mint & Red</option>
+                  <option value="Camel Double Mint & Purple">Camel Double Mint & Purple</option>
+                  <option value="Black Kretek Menthol">Black Kretek Menthol</option>
+                  <option value="Black Kretek">Black Kretek</option>
+                  <option value="Gudang">Gudang</option>
+                  <option value="Winston Blue">Winston Blue</option>
+                  <option value="Winston Red">Winston Red</option>
+                  <option value="Winston Silver">Winston Silver</option>
+                  <option value="Winston P. Mint">Winston P. Mint</option>
+                  <option value="Winston Classic">Winston Classic</option>
+                  <option value="Chesterfield Blue">Chesterfield Blue</option>
+                  <option value="Chesterfield T. Brasileiras">Chesterfield T. Brasileiras</option>
+                  <option value="Chesterfield Remix Wild">Chesterfield Remix Wild</option>
+                  <option value="Chesterfield Remix Beats">Chesterfield Remix Beats</option>
+                  <option value="Chesterfield Fresh & Mint">Chesterfield Fresh & Mint</option>
+                </select>
                 <input id="qtdpedidos" placeholder="Qtd Pedidos" type="number" min="1" value="1">
-                <input id="comprador" placeholder="COMPRADOR (José, Maria)">
+                <input id="comprador" placeholder="COMPRADOR">
                 <input id="preco" placeholder="R$" type="number" step="0.01">
             </div>
             
@@ -74,6 +130,24 @@
             </div>
         </div>
     </div>
+
+
+    <div class="finalizados-box">
+    <h3>Vendas Finalizadas</h3>
+
+    <div class="botoes-finalizadas">
+        <button onclick="exportFinalizadas()">📄 EXTRATO FINALIZADAS</button>
+        <button onclick="limparFinalizadas()" class="btn-danger">🧹 LIMPAR FINALIZADAS</button>
+    </div>
+
+    <div id="vendasFinalizadas">
+        Nenhuma venda finalizada ainda.
+    </div>
+</div>
+
+
+
+
     
     <!-- CARREGA JAVASCRIPT -->
     <script src="script.js"></script>
