@@ -100,6 +100,149 @@ th {
     letter-spacing: 0.5px;
 }
 
+.acoes {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.btn-acao {
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0;
+    min-width: 35px;
+    flex: none;
+}
+
+.btn-relatorio {
+    background: #3498db;
+    margin-right: 5px;
+}
+
+.btn-relatorio:active {
+    background: #2980b9;
+}
+
+.btn-excluir {
+    background: #e74c3c;
+}
+
+.btn-excluir:active {
+    background: #c0392b;
+}
+
+
+/* AÇÕES DA TABELA */
+.acoes {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.btn-acao {
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0;
+    min-width: 35px;
+    flex: none;
+    margin-right: 5px;
+}
+
+.btn-acao:last-child {
+    margin-right: 0;
+}
+
+.btn-finalizar {
+    background: #27ae60;
+}
+
+.btn-finalizar:active {
+    background: #219a52;
+}
+
+.btn-relatorio {
+    background: #3498db;
+}
+
+.btn-relatorio:active {
+    background: #2980b9;
+}
+
+.btn-excluir {
+    background: #e74c3c;
+}
+
+.btn-excluir:active {
+    background: #c0392b;
+}
+
+/* VENDAS FINALIZADAS */
+.finalizados-box {
+    background: #f8f9fa;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.finalizados-box h3 {
+    color: #e74c3c;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.marca-finalizada {
+    background: white;
+    border-left: 5px solid #27ae60;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.marca-titulo {
+    font-weight: bold;
+    color: #e74c3c;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.marca-total {
+    font-weight: bold;
+    color: #155724;
+    margin-bottom: 8px;
+}
+
+.comprador-finalizado {
+    background: #f8f9fa;
+    padding: 7px;
+    border-radius: 6px;
+    margin-top: 5px;
+}
+
+/* botoes da vendas finalizadas */
+
+.botoes-finalizadas {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.botoes-finalizadas button {
+    min-width: 160px;
+}
+
+
+
 /* RESPONSIVO CELULAR */
 @media (max-width: 600px) { 
     .form-row { flex-direction: column; }
