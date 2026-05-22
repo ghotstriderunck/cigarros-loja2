@@ -457,26 +457,22 @@ function exportFinalizadas() {
 
     finalizadas.forEach(v => {
         if (!marcas[v.marca]) {
-            marcas[v.marca] = [];
+            marcas[v.marca] = {
+                totalPedidos: 0,
+                totalValor: 0
+            };
         }
 
-        marcas[v.marca].push(v);
+        marcas[v.marca].totalPedidos += v.qtdpedidos;
+        marcas[v.marca].totalValor += v.qtdpedidos * v.preco;
     });
 
     let extrato = '';
 
     Object.keys(marcas).forEach(marca => {
         extrato += `\n===== ${marca} =====\n`;
-
-        marcas[marca].forEach(v => {
-            const total = (v.qtdpedidos * v.preco).toFixed(2);
-            extrato += `${v.data} | ${v.qtdpedidos} pedidos | ${v.comprador} | R$${total}\n`;
-        });
-
-        const totalMarca = marcas[marca].reduce((sum, v) => sum + (v.qtdpedidos * v.preco), 0);
-        const pedidosMarca = marcas[marca].reduce((sum, v) => sum + v.qtdpedidos, 0);
-
-        extrato += `TOTAL ${marca}: ${pedidosMarca} pedidos | R$${totalMarca.toFixed(2)}\n`;
+        extrato += `Total pedidos: ${marcas[marca].totalPedidos}\n`;
+        extrato += `Total: R$${marcas[marca].totalValor.toFixed(2)}\n`;
     });
 
     const totalGeral = finalizadas.reduce((sum, v) => sum + (v.qtdpedidos * v.preco), 0);
@@ -486,7 +482,7 @@ function exportFinalizadas() {
 ${extrato}
 
 💰 TOTAL FINALIZADO: R$${totalGeral.toFixed(2)}
-📦 ${finalizadas.length} vendas | ${totalPedidos} pedidos`;
+📦 TOTAL PEDIDOS: ${totalPedidos}`;
 
     const blob = new Blob([relatorio], { type: 'text/plain' });
     const a = document.createElement('a');
